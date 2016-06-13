@@ -133,19 +133,25 @@ void nnet::foward_propagation(const int pnum)
   int i,j;
   double sum;
 
+  // 入力層ー＞隠れ層
   for(i=0;i<hiddennum;i++){
     sum=0;
     for(j=0;j<inputnum;j++){
+      // 重み×入力値
       sum+=W_itoh[i][j]*X_i[pnum][j];
     }
+    // 重み×入力値の総和にバイアス項を足してアクティベーション関数に通したものが中間層入力
     X_h[i] = activationFunc(sum+bias_h[i]);
   }
 
+  // 隠れ層ー＞出力層
   for(i=0;i<outputnum;i++){
     sum=0;
     for(j=0;j<hiddennum;j++){
+      // 重み×中間層入力
       sum+=W_htoo[i][j]*X_h[j];
     }
+    // 重み×中間層入力値の総和にバイアス項を足してアクティベーション関数に通したものが出力層
     X_o[i]=activationFunc(sum+bias_o[i]);
   }
 
@@ -155,16 +161,20 @@ void nnet::back_propagation(const int pnum)
 {
   int i,j;
   double sum;
-  double *dwih = new double[hiddennum];
-  double *dwho = new double[outputnum];
+  double *dwih = new double[hiddennum];   // 隠れ層での学習信号
+  double *dwho = new double[outputnum];   // 出力層での学習信号
 
+  // 出力層から計算
   for(i=0;i<outputnum;i++){
+    // 出力層での学習信号=(教師信号-出力）*出力*(1-出力)
+    // 出力*(1-出力)はシグモイド関数の微分
     dwho[i]=(T_signal[pnum][i]-X_o[i]) * X_o[i] * (1.0-X_o[i]);
   }
 
   for(i=0;i<hiddennum;i++){
     sum=0;
     for(j=0;j<outputnum;j++){
+      // 重みの変化量
       W_htoo_prev[j][i]=Eta*dwho[j]*X_h[i]+Alpha*W_htoo_prev[j][i];
       W_htoo[j][i]+=W_htoo_prev[j][i];
       sum = dwho[j]*W_htoo[j][i];
