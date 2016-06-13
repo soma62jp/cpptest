@@ -217,7 +217,7 @@ void nnet::back_propagation(const int pnum)
   // 隠れ層のバイアス項を計算
   for(i=0;i<hiddennum;i++){
     // 前回のバイアス項[隠れ層] = η * 隠れ層での学習信号 + α * 前回のバイアス項[隠れ層]
-    bias_h_prev[i]=Eta*dwih[i]+Alpha+bias_h_prev[i];
+    bias_h_prev[i]=Eta*dwih[i]+Alpha*bias_h_prev[i];
     // 出力層バイアス項[隠れ層] = 出力層バイアス項[隠れ層] + 前回の出力層バイアス項[隠れ層]
     bias_h[i]+=bias_h_prev[i];
   }
