@@ -49,6 +49,7 @@ class nnet
 
   // functions
   void foward_propagation(const int pnum);
+  void back_propagation(const int pnum);
   
 };
 

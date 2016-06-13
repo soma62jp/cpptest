@@ -151,6 +151,49 @@ void nnet::foward_propagation(const int pnum)
 
 }
 
+void nnet::back_propagation(const int pnum)
+{
+  int i,j;
+  double sum;
+  double *dwih = new double[hiddennum];
+  double *dwho = new double[outputnum];
+
+  for(i=0;i<outputnum;i++){
+    dwho[i]=(T_signal[pnum][i]-X_o[i]) * X_o[i] * (1.0-X_o[i]);
+  }
+
+  for(i=0;i<hiddennum;i++){
+    sum=0;
+    for(j=0;j<outputnum;j++){
+      W_htoo_prev[j][i]=Eta*dwho[j]*X_h[i]+Alpha*W_htoo_prev[j][i];
+      W_htoo[j][i]+=W_htoo_prev[j][i];
+      sum = dwho[j]*W_htoo[j][i];
+    }
+    dwih[i]=X_h[i]*(1-X_h[i])*sum;
+  }
+
+  for(i=0;i<outputnum;i++){
+    bias_o_prev[i] = Eta*dwho[i]+Alpha*bias_o_prev[i];
+    bias_o[i]+=bias_o_prev[i];
+  }
+
+  for(i=0;i<inputnum;i++){
+    for(j=0;j<hiddennum;j++){
+      W_itoh_prev[j][i]=Eta*dwih[j]*X_i[pnum][i]+Alpha*W_itoh_prev[j][i];
+      W_itoh[j][i]+=W_itoh_prev[j][i];
+    }
+  }
+
+  for(i=0;i<hiddennum;i++){
+    bias_h_prev[i]=Eta*dwih[i]+Alpha+bias_h_prev[i];
+    bias_h[i]+=bias_h_prev[i];
+  }
+
+  delete dwih;
+  delete dwho;
+
+}
+
 int main()
 {
   cout << "Hellow World!" << endl;
