@@ -128,6 +128,29 @@ nnet::~nnet()
 
 }
 
+void nnet::foward_propagation(const int pnum)
+{
+  int i,j;
+  double sum;
+
+  for(i=0;i<hiddennum;i++){
+    sum=0;
+    for(j=0;j<inputnum;j++){
+      sum+=W_itoh[i][j]*X_i[pnum][j];
+    }
+    X_h[i] = activationFunc(sum+bias_h[i]);
+  }
+
+  for(i=0;i<outputnum;i++){
+    sum=0;
+    for(j=0;j<hiddennum;j++){
+      sum+=W_htoo[i][j]*X_h[j];
+    }
+    X_o[i]=activationFunc(sum+bias_o[i]);
+  }
+
+}
+
 int main()
 {
   cout << "Hellow World!" << endl;

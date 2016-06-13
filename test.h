@@ -44,8 +44,11 @@ class nnet
   const double Rlow;
   const double Rhigh;
 
-  #define activationFunc(x) (1/(1+exp(-x))))
+  #define activationFunc(x) (1/(1+exp(-x)))
   #define urand() ((double) rand()/RAND_MAX * (Rhigh - Rlow) + Rlow)
+
+  // functions
+  void foward_propagation(const int pnum);
   
 };
 
