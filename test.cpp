@@ -190,7 +190,7 @@ void nnet::back_propagation(const int pnum)
       // 重みの変化量[隠れ層ー＞出力層] = 重みの変化量[隠れ層ー＞出力層] + 前回の重みの変化量[隠れ層ー＞出力層]
       W_htoo[j][i]+=W_htoo_prev[j][i];
       // 出力層での学習信号 * 重みの変化量[隠れ層ー＞出力層]
-      sum = dwho[j]*W_htoo[j][i];
+      sum += dwho[j]*W_htoo[j][i];
     }
     // 隠れ層での学習信号 = 隠れ層出力 * (1 - 隠れ層出力) * sum
     dwih[i]=X_h[i]*(1-X_h[i])*sum;
@@ -252,7 +252,7 @@ void nnet::train()
   int i,j,ip;
 
   gen = 0;
-  verror = 1.0;
+  verror = 20.0;
   while((verror > ErrorEv) && (gen < MaxGen))
   {
     gen++;
