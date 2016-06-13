@@ -228,7 +228,7 @@ void nnet::setOutData(const int i,const double value)
   X_o[i] = value;
 }
 
-void nnet::calc()
+void nnet::train()
 {
 }
 
@@ -238,7 +238,7 @@ int main()
 
   net.setInData(0,1,1);
   net.setOutData(0,1);
-  net.calc();
+  net.train();
 
   cout << "Hellow World!" << endl;
 }

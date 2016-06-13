@@ -13,7 +13,7 @@ class nnet
   ~nnet();
   void setInData(const int pnum,const int i,const double value);
   void setOutData(const int i,const double value);
-  void calc();
+  void train();
 
  private:
   // parameter
