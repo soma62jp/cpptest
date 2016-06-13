@@ -9,10 +9,11 @@
 
 using namespace std;
 
-nnet::nnet(int inputnum,int hiddennum,int outputnum):
+nnet::nnet(int inputnum,int hiddennum,int outputnum,int patternnum):
       inputnum(inputnum)
      ,hiddennum(hiddennum)
      ,outputnum(outputnum)
+     ,patternnum(patternnum)
      ,Eta(0.75)
      ,Alpha(0.8)
      ,ErrorEv(0.08)
@@ -23,12 +24,17 @@ nnet::nnet(int inputnum,int hiddennum,int outputnum):
   //this->hiddennum=hiddennum;
   //this->outputnum=outputnum;
 
-  X_i = new double[inputnum];
   X_h = new double[hiddennum];
   X_o = new double[outputnum];
 
   bias_h = new double[hiddennum];
   bias_o = new double[outputnum];
+
+  // pattern*input
+  X_i = new double*[patternnum];
+  for(int i=0;i<patternnum;i++){
+    X_i[i] = new double[inputnum];
+  }
 
   // hidden*input
   W_itoh = new double*[hiddennum];
@@ -71,6 +77,11 @@ nnet::~nnet()
 
   delete [] bias_h;
   delete [] bias_o;
+
+  for( int i=0; i<patternnum; i++ ) {
+    delete[] X_i[i];
+  }
+  delete [] X_i;
   
   for( int i=0; i<hiddennum; i++ ) {
     delete[] W_itoh[i];

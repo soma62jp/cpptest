@@ -9,21 +9,30 @@
 class nnet
 {
  public:
-  nnet(int inputnum,int hiddennum,int outputnum);
+  nnet(int inputnum,int hiddennum,int outputnum,int patternnum);
   ~nnet();
 
  private:
-  double **W_itoh;  // weight input to hidden
-  double **W_htoo;  // weight hidden to output
-  double *X_i;  // X inpit
-  double *X_h;  // X hidden
-  double *X_o;  // X output
-  double *bias_h;   // bias hidden layer
-  double *bias_o;   // bias output layer
+  // parameter
   int inputnum;
   int hiddennum;
   int outputnum;
+  int patternnum;
+  double **X_i;      // X input
+  double *X_h;      // X hidden
+  double *X_o;      // X output
 
+ // foward propagation
+  double **W_itoh;  // weight input to hidden
+  double **W_htoo;  // weight hidden to output
+  double *bias_h;   // bias hidden layer
+  double *bias_o;   // bias output layer
+
+
+  // back propagation
+  double **T_signal;// teach signal
+
+  // const parameter
   const double Eta;
   const double Alpha;
   const double ErrorEv;
