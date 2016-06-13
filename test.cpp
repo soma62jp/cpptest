@@ -164,38 +164,52 @@ void nnet::back_propagation(const int pnum)
   double *dwih = new double[hiddennum];   // 隠れ層での学習信号
   double *dwho = new double[outputnum];   // 出力層での学習信号
 
-  // 出力層から計算
+  // 出力層の学習信号から計算
   for(i=0;i<outputnum;i++){
     // 出力層での学習信号=(教師信号-出力）*出力*(1-出力)
     // 出力*(1-出力)はシグモイド関数の微分
     dwho[i]=(T_signal[pnum][i]-X_o[i]) * X_o[i] * (1.0-X_o[i]);
   }
 
+  // 重みの変化量[隠れ層ー＞出力層]を計算
+  // 隠れ層の学習信号を計算
   for(i=0;i<hiddennum;i++){
     sum=0;
     for(j=0;j<outputnum;j++){
-      // 重みの変化量
+      // 前回の重みの変化量[隠れ層->出力層] = η * 出力層での学習信号 * 隠れ層出力 * α * 前回の重みの変化量[隠れ層->出力層]
       W_htoo_prev[j][i]=Eta*dwho[j]*X_h[i]+Alpha*W_htoo_prev[j][i];
+      // 重みの変化量[隠れ層ー＞出力層] = 重みの変化量[隠れ層ー＞出力層] + 前回の重みの変化量[隠れ層ー＞出力層]
       W_htoo[j][i]+=W_htoo_prev[j][i];
+      // 出力層での学習信号 * 重みの変化量[隠れ層ー＞出力層]
       sum = dwho[j]*W_htoo[j][i];
     }
+    // 隠れ層での学習信号 = 隠れ層出力 * (1 - 隠れ層出力) * sum
     dwih[i]=X_h[i]*(1-X_h[i])*sum;
   }
 
+  // 出力層のバイアス項を計算
   for(i=0;i<outputnum;i++){
+    // 前回のバイアス項[出力層] = η * 出力層での学習信号 + α * 前回のバイアス項[出力層]
     bias_o_prev[i] = Eta*dwho[i]+Alpha*bias_o_prev[i];
+    // 出力層バイアス項[出力層] = 出力層バイアス項[出力層] + 前回の出力層バイアス項[出力層]
     bias_o[i]+=bias_o_prev[i];
   }
 
+  // 重みの変化量[入力層ー＞隠れ層]を計算
   for(i=0;i<inputnum;i++){
     for(j=0;j<hiddennum;j++){
+      // 前回の重みの変化量[入力層ー＞隠れ層] = η * 隠れ層での学習信号 * 入力層出力 * α * 前回の重みの変化量[入力層ー＞隠れ層]
       W_itoh_prev[j][i]=Eta*dwih[j]*X_i[pnum][i]+Alpha*W_itoh_prev[j][i];
+      // 重みの変化量[入力層ー＞隠れ層] = 重みの変化量[入力層ー＞隠れ層] + 前回の重みの変化量[入力層ー＞隠れ層]
       W_itoh[j][i]+=W_itoh_prev[j][i];
     }
   }
 
+  // 隠れ層のバイアス項を計算
   for(i=0;i<hiddennum;i++){
+    // 前回のバイアス項[隠れ層] = η * 隠れ層での学習信号 + α * 前回のバイアス項[隠れ層]
     bias_h_prev[i]=Eta*dwih[i]+Alpha+bias_h_prev[i];
+    // 出力層バイアス項[隠れ層] = 出力層バイアス項[隠れ層] + 前回の出力層バイアス項[隠れ層]
     bias_h[i]+=bias_h_prev[i];
   }
 
@@ -204,8 +218,27 @@ void nnet::back_propagation(const int pnum)
 
 }
 
+void  nnet::setInData(const int pnum,const int i,const double value)
+{
+  X_i[pnum][i] = value;
+}
+  
+void nnet::setOutData(const int i,const double value)
+{
+  X_o[i] = value;
+}
+
+void nnet::calc()
+{
+}
+
 int main()
 {
-  
+  nnet net(2,2,1,4);
+
+  net.setInData(0,1,1);
+  net.setOutData(0,1);
+  net.calc();
+
   cout << "Hellow World!" << endl;
 }

@@ -11,6 +11,9 @@ class nnet
  public:
   nnet(int inputnum,int hiddennum,int outputnum,int patternnum);
   ~nnet();
+  void setInData(const int pnum,const int i,const double value);
+  void setOutData(const int i,const double value);
+  void calc();
 
  private:
   // parameter
