@@ -18,19 +18,24 @@ class nnet
   int hiddennum;
   int outputnum;
   int patternnum;
-  double **X_i;      // X input
-  double *X_h;      // X hidden
-  double *X_o;      // X output
+  double **X_i;         // X input
+  double *X_h;          // X hidden
+  double *X_o;          // X output
 
  // foward propagation
-  double **W_itoh;  // weight input to hidden
-  double **W_htoo;  // weight hidden to output
-  double *bias_h;   // bias hidden layer
-  double *bias_o;   // bias output layer
+  double **W_itoh;      // weight input to hidden
+  double **W_htoo;      // weight hidden to output
+  double *bias_h;       // bias hidden layer
+  double *bias_o;       // bias output layer
 
 
   // back propagation
-  double **T_signal;// teach signal
+  double **T_signal;      // teach signal
+  double **W_itoh_prev;   // weight input to hidden
+  double **W_htoo_prev;   // weight hidden to output
+  double *bias_h_prev;    // bias hidden layer
+  double *bias_o_prev;    // bias output layer
+  
 
   // const parameter
   const double Eta;

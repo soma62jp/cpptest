@@ -29,6 +29,8 @@ nnet::nnet(int inputnum,int hiddennum,int outputnum,int patternnum):
 
   bias_h = new double[hiddennum];
   bias_o = new double[outputnum];
+  bias_h_prev = new double[hiddennum];
+  bias_o_prev = new double[outputnum];
 
   // pattern*input
   X_i = new double*[patternnum];
@@ -36,10 +38,20 @@ nnet::nnet(int inputnum,int hiddennum,int outputnum,int patternnum):
     X_i[i] = new double[inputnum];
   }
 
+  // pattern*output
+  T_signal = new double*[patternnum];
+  for(int i=0;i<patternnum;i++){
+    T_signal[i] = new double[outputnum];
+  }
+
   // hidden*input
   W_itoh = new double*[hiddennum];
   for(int i=0;i<hiddennum;i++){
     W_itoh[i] = new double[inputnum];
+  }
+  W_itoh_prev = new double*[hiddennum];
+  for(int i=0;i<hiddennum;i++){
+    W_itoh_prev[i] = new double[inputnum];
   }
 
   // output*hidden
@@ -47,7 +59,10 @@ nnet::nnet(int inputnum,int hiddennum,int outputnum,int patternnum):
   for(int i=0;i<outputnum;i++){
     W_htoo[i] = new double[hiddennum];
   }
-
+  W_htoo_prev = new double*[outputnum];
+  for(int i=0;i<outputnum;i++){
+    W_htoo_prev[i] = new double[hiddennum];
+  }
 
   //initialize parameter
   srand((unsigned int)time(NULL));
@@ -71,27 +86,46 @@ nnet::nnet(int inputnum,int hiddennum,int outputnum,int patternnum):
 nnet::~nnet()
 {
 
-  delete [] X_i;
   delete [] X_h;
   delete [] X_o;
 
   delete [] bias_h;
   delete [] bias_o;
+  delete [] bias_h_prev;
+  delete [] bias_o_prev;
 
   for( int i=0; i<patternnum; i++ ) {
     delete[] X_i[i];
   }
   delete [] X_i;
+
+  for( int i=0; i<patternnum; i++ ) {
+    delete[] T_signal[i];
+  }
+  delete [] T_signal;
   
   for( int i=0; i<hiddennum; i++ ) {
     delete[] W_itoh[i];
   }
   delete [] W_itoh;
 
+  for( int i=0; i<hiddennum; i++ ) {
+    delete[] W_itoh_prev[i];
+  }
+  delete [] W_itoh_prev;
+
   for( int i=0; i<outputnum; i++ ) {
     delete [] W_htoo[i];
   }
   delete [] W_htoo;
+
+  for( int i=0; i<outputnum; i++ ) {
+    delete [] W_htoo_prev[i];
+  }
+  delete [] W_htoo_prev;
+
+
+
 }
 
 int main()
