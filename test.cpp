@@ -19,7 +19,7 @@ nnet::nnet(int inputnum,int hiddennum,int outputnum,int patternnum):
      ,ErrorEv(0.03)
      ,Rlow(-0.30)
      ,Rhigh(0.30)
-     ,MaxGen(300)
+     ,MaxGen(3000)
 {
   //this->inputnum=inputnum;
   //this->hiddennum=hiddennum;
@@ -78,6 +78,14 @@ nnet::nnet(int inputnum,int hiddennum,int outputnum,int patternnum):
     for(int j=0;j<hiddennum;j++){
       W_htoo[i][j]=urand();
     }
+  }
+
+  for(int i=0;i<hiddennum;i++){
+    bias_h[i] = 0;
+  }
+
+  for(int i=0;i<outputnum;i++){
+    bias_o[i] = 0;
   }
 
 
@@ -259,7 +267,7 @@ void nnet::train()
     // error calc
     verror = 0;
     for(i=0;i<patternnum;i++){
-      //foward_propagation(i);
+      foward_propagation(i);
       for(j=0;j<outputnum;j++){
           verror+=pow((T_signal[i][j] - X_o[j]) * 0.5 ,2.0);
       }
