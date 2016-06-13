@@ -16,9 +16,10 @@ nnet::nnet(int inputnum,int hiddennum,int outputnum,int patternnum):
      ,patternnum(patternnum)
      ,Eta(0.75)
      ,Alpha(0.8)
-     ,ErrorEv(0.08)
+     ,ErrorEv(0.03)
      ,Rlow(-0.30)
      ,Rhigh(0.30)
+     ,MaxGen(300)
 {
   //this->inputnum=inputnum;
   //this->hiddennum=hiddennum;
@@ -220,25 +221,90 @@ void nnet::back_propagation(const int pnum)
 
 void  nnet::setInData(const int pnum,const int i,const double value)
 {
+  if(pnum>=patternnum || i>=inputnum){
+    cout << "can't set Indata." << endl;
+    exit(1);
+  }
   X_i[pnum][i] = value;
 }
   
-void nnet::setOutData(const int i,const double value)
+void nnet::setTeachData(const int pnum,const int i,const double value)
 {
-  X_o[i] = value;
+  if(pnum>=patternnum || i>=outputnum){
+    cout << "can't set Indata." << endl;
+    exit(1);
+  }
+  T_signal[pnum][i] = value;
 }
 
 void nnet::train()
 {
+  double verror;
+  int gen;
+  int i,j,ip;
+
+  gen = 0;
+  verror = 1.0;
+  while((verror > ErrorEv) && (gen < MaxGen))
+  {
+    gen++;
+    
+    // foward and back propagation
+    for(i=0;i<patternnum;i++){
+      ip = patternnum * random();
+      foward_propagation(ip);
+      back_propagation(ip);
+    }
+
+    // error calc
+    verror = 0;
+    for(i=0;i<patternnum;i++){
+      //foward_propagation(i);
+      for(j=0;j<outputnum;j++){
+          verror+=pow((T_signal[i][j] - X_o[j]) * 0.5 ,2.0);
+      }
+    }
+    verror /= (double)patternnum;
+
+    cout << verror << endl;
+
+  }
+}
+
+double nnet::random() 
+{
+	double r;
+	int i;
+
+	i = rand();
+	if (i != 0)
+		i--;
+	r = (double)i / RAND_MAX;
+	return (r);
 }
 
 int main()
 {
   nnet net(2,2,1,4);
 
-  net.setInData(0,1,1);
-  net.setOutData(0,1);
+  net.setInData(0,0,0);
+  net.setInData(0,1,0);
+  net.setTeachData(0,0,0);
+
+  net.setInData(1,0,1);
+  net.setInData(1,1,1);
+  net.setTeachData(1,0,0);
+
+  net.setInData(2,0,1);
+  net.setInData(2,1,0);
+  net.setTeachData(2,0,1);
+
+  net.setInData(3,0,0);
+  net.setInData(3,1,1);
+  net.setTeachData(3,0,1);
+
   net.train();
 
   cout << "Hellow World!" << endl;
+
 }

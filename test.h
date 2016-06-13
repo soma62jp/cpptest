@@ -12,7 +12,7 @@ class nnet
   nnet(int inputnum,int hiddennum,int outputnum,int patternnum);
   ~nnet();
   void setInData(const int pnum,const int i,const double value);
-  void setOutData(const int i,const double value);
+  void setTeachData(const int pnum,const int i,const double value);
   void train();
 
  private:
@@ -46,6 +46,7 @@ class nnet
   const double ErrorEv;
   const double Rlow;
   const double Rhigh;
+  const int MaxGen;
 
   #define activationFunc(x) (1/(1+exp(-x)))
   #define urand() ((double) rand()/RAND_MAX * (Rhigh - Rlow) + Rlow)
@@ -53,6 +54,7 @@ class nnet
   // functions
   void foward_propagation(const int pnum);
   void back_propagation(const int pnum);
+  double random() ;
   
 };
 
