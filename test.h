@@ -51,6 +51,7 @@ class nnet
   const int MaxGen;
 
   #define activationFunc(x) (1/(1+exp(-(x))))   // -xではNG -(x) とすること
+  #define activationFunc_diff(x) (x*(1-x))
   #define urand() ((double) rand()/RAND_MAX * (Rhigh - Rlow) + Rlow)
 
   // functions

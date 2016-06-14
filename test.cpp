@@ -175,9 +175,9 @@ void nnet::back_propagation(const int pnum)
 
   // 出力層の学習信号から計算
   for(i=0;i<outputnum;i++){
-    // 出力層での学習信号=(教師信号-出力）*出力*(1-出力)
-    // 出力*(1-出力)はシグモイド関数の微分
-    dwho[i]=(T_signal[pnum][i]-X_o[i]) * X_o[i] * (1.0-X_o[i]);
+    // 出力層での学習信号=(教師信号-出力） * f'(出力)
+    // f'(出力)はシグモイド関数の微分
+    dwho[i]=(T_signal[pnum][i]-X_o[i]) * activationFunc_diff(X_o[i]);
   }
 
   // 重みの変化量[隠れ層ー＞出力層]を計算
@@ -192,8 +192,8 @@ void nnet::back_propagation(const int pnum)
       // 出力層での学習信号 * 重みの変化量[隠れ層ー＞出力層]
       sum += dwho[j]*W_htoo[j][i];
     }
-    // 隠れ層での学習信号 = 隠れ層出力 * (1 - 隠れ層出力) * sum
-    dwih[i]=X_h[i]*(1-X_h[i])*sum;
+    // 隠れ層での学習信号 = f'(隠れ層出力) * sum
+    dwih[i]=activationFunc_diff(X_h[i])*sum;
   }
 
   // 出力層のバイアス項を計算
