@@ -222,8 +222,8 @@ void nnet::back_propagation(const int pnum)
     bias_h[i]+=bias_h_prev[i];
   }
 
-  delete dwih;
-  delete dwho;
+  delete [] dwih;
+  delete [] dwho;
 
 }
 
@@ -311,7 +311,7 @@ double nnet::random()
 
 int main()
 {
-  nnet net(2,2,1,4);
+  nnet net(2,4,1,4);
 
   net.setInData(0,0,0);
   net.setInData(0,1,0);
