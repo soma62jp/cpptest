@@ -13,7 +13,9 @@ class nnet
   ~nnet();
   void setInData(const int pnum,const int i,const double value);
   void setTeachData(const int pnum,const int i,const double value);
+  void setPredictData(const int i,const double value);
   void train();
+  void predict();
 
  private:
   // parameter

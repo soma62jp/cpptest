@@ -279,6 +279,24 @@ void nnet::train()
   }
 }
 
+void nnet::setPredictData(const int i,const double value)
+{
+  if(i>=inputnum){
+    cout << "can't set Predictdata." << endl;
+    exit(1);
+  }
+  X_i[patternnum-1][i] = value;  
+}
+
+void nnet::predict()
+{
+  int i;
+  foward_propagation(patternnum-1);
+  for(i=0;i<outputnum;i++){
+    cout << X_o[i] << endl;
+  }
+}
+
 double nnet::random() 
 {
 	double r;
@@ -313,6 +331,24 @@ int main()
 
   net.train();
 
-  cout << "Hellow World!" << endl;
+  cout << "--  Predict 00 --" << endl;
+  net.setPredictData(0,0);
+  net.setPredictData(1,0);
+  net.predict();
+
+  cout << "--  Predict 01 --" << endl;
+  net.setPredictData(0,0);
+  net.setPredictData(1,1);
+  net.predict();
+
+  cout << "--  Predict 10 --" << endl;
+  net.setPredictData(0,1);
+  net.setPredictData(1,0);
+  net.predict();
+
+  cout << "--  Predict 11 --" << endl;
+  net.setPredictData(0,1);
+  net.setPredictData(1,1);
+  net.predict();
 
 }
