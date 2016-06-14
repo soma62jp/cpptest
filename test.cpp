@@ -16,10 +16,10 @@ nnet::nnet(int inputnum,int hiddennum,int outputnum,int patternnum):
      ,patternnum(patternnum)
      ,Eta(0.75)
      ,Alpha(0.8)
-     ,ErrorEv(0.01)
+     ,ErrorEv(0.001)
      ,Rlow(-0.30)
      ,Rhigh(0.30)
-     ,MaxGen(3000)
+     ,MaxGen(10000)
 {
   //this->inputnum=inputnum;
   //this->hiddennum=hiddennum;
@@ -239,7 +239,7 @@ void  nnet::setInData(const int pnum,const int i,const double value)
 void nnet::setTeachData(const int pnum,const int i,const double value)
 {
   if(pnum>=patternnum || i>=outputnum){
-    cout << "can't set Indata." << endl;
+    cout << "can't set Teachdata." << endl;
     exit(1);
   }
   T_signal[pnum][i] = value;
