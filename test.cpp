@@ -245,6 +245,15 @@ void nnet::setTeachData(const int pnum,const int i,const double value)
   T_signal[pnum][i] = value;
 }
 
+void nnet::setPredictData(const int i,const double value)
+{
+  if(i>=inputnum){
+    cout << "can't set Predictdata." << endl;
+    exit(1);
+  }
+  X_i[patternnum-1][i] = value;  
+}
+
 void nnet::train()
 {
   double verror;
@@ -277,15 +286,6 @@ void nnet::train()
     cout << verror << endl;
 
   }
-}
-
-void nnet::setPredictData(const int i,const double value)
-{
-  if(i>=inputnum){
-    cout << "can't set Predictdata." << endl;
-    exit(1);
-  }
-  X_i[patternnum-1][i] = value;  
 }
 
 void nnet::predict()
