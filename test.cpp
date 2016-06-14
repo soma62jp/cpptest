@@ -16,7 +16,7 @@ nnet::nnet(int inputnum,int hiddennum,int outputnum,int patternnum):
      ,patternnum(patternnum)
      ,Eta(0.75)
      ,Alpha(0.8)
-     ,ErrorEv(0.03)
+     ,ErrorEv(0.01)
      ,Rlow(-0.30)
      ,Rhigh(0.30)
      ,MaxGen(3000)

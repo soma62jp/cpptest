@@ -48,7 +48,7 @@ class nnet
   const double Rhigh;
   const int MaxGen;
 
-  #define activationFunc(x) (1/(1+exp(-x)))
+  #define activationFunc(x) (1/(1+exp(-(x))))   // -xではNG -(x) とすること
   #define urand() ((double) rand()/RAND_MAX * (Rhigh - Rlow) + Rlow)
 
   // functions
