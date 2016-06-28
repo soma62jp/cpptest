@@ -40,6 +40,8 @@ class nnet
   double **W_htoo_prev;   // weight hidden to output
   double *bias_h_prev;    // bias hidden layer
   double *bias_o_prev;    // bias output layer
+  double *dwih;           // 隠れ層での学習信号
+  double *dwho;           // 出力層での学習信号
   
 
   // const parameter

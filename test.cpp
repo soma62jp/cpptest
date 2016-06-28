@@ -21,9 +21,6 @@ nnet::nnet(int inputnum,int hiddennum,int outputnum,int patternnum):
      ,Rhigh(0.30)
      ,MaxGen(10000)
 {
-  //this->inputnum=inputnum;
-  //this->hiddennum=hiddennum;
-  //this->outputnum=outputnum;
 
   X_h = new double[hiddennum];
   X_o = new double[outputnum];
@@ -32,6 +29,8 @@ nnet::nnet(int inputnum,int hiddennum,int outputnum,int patternnum):
   bias_o = new double[outputnum];
   bias_h_prev = new double[hiddennum];
   bias_o_prev = new double[outputnum];
+  dwih = new double[hiddennum];
+  dwho = new double[outputnum];
 
   // pattern*input
   X_i = new double*[patternnum];
@@ -102,6 +101,8 @@ nnet::~nnet()
   delete [] bias_o;
   delete [] bias_h_prev;
   delete [] bias_o_prev;
+  delete [] dwih;
+  delete [] dwho;
 
   for( int i=0; i<patternnum; i++ ) {
     delete[] X_i[i];
@@ -170,8 +171,6 @@ void nnet::back_propagation(const int pnum)
 {
   int i,j;
   double sum;
-  double *dwih = new double[hiddennum];   // 隠れ層での学習信号
-  double *dwho = new double[outputnum];   // 出力層での学習信号
 
   // 出力層の学習信号から計算
   for(i=0;i<outputnum;i++){
@@ -221,9 +220,6 @@ void nnet::back_propagation(const int pnum)
     // 出力層バイアス項[隠れ層] = 出力層バイアス項[隠れ層] + 前回の出力層バイアス項[隠れ層]
     bias_h[i]+=bias_h_prev[i];
   }
-
-  delete [] dwih;
-  delete [] dwho;
 
 }
 
