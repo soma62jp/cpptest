@@ -11,9 +11,9 @@ class nnet
  public:
   nnet(int inputnum,int hiddennum,int outputnum,int patternnum);
   ~nnet();
-  void setInData(const int pnum,const int i,const double value);
-  void setTeachData(const int pnum,const int i,const double value);
-  void setPredictData(const int i,const double value);
+  void setInData(const int &pnum,const int &i,const double &value);
+  void setTeachData(const int &pnum,const int &i,const double &value);
+  void setPredictData(const int &i,const double &value);
   void train();
   void predict();
 

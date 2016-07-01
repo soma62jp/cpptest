@@ -223,7 +223,7 @@ void nnet::back_propagation(const int pnum)
 
 }
 
-void  nnet::setInData(const int pnum,const int i,const double value)
+void  nnet::setInData(const int &pnum,const int &i,const double &value)
 {
   if(pnum>=patternnum || i>=inputnum){
     cout << "can't set Indata." << endl;
@@ -232,7 +232,7 @@ void  nnet::setInData(const int pnum,const int i,const double value)
   X_i[pnum][i] = value;
 }
   
-void nnet::setTeachData(const int pnum,const int i,const double value)
+void nnet::setTeachData(const int &pnum,const int &i,const double &value)
 {
   if(pnum>=patternnum || i>=outputnum){
     cout << "can't set Teachdata." << endl;
@@ -241,7 +241,7 @@ void nnet::setTeachData(const int pnum,const int i,const double value)
   T_signal[pnum][i] = value;
 }
 
-void nnet::setPredictData(const int i,const double value)
+void nnet::setPredictData(const int &i,const double &value)
 {
   if(i>=inputnum){
     cout << "can't set Predictdata." << endl;
