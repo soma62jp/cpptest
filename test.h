@@ -57,8 +57,8 @@ class nnet
   #define urand() ((double) rand()/RAND_MAX * (Rhigh - Rlow) + Rlow)
 
   // functions
-  void foward_propagation(const int pnum);
-  void back_propagation(const int pnum);
+  void foward_propagation(const int &pnum);
+  void back_propagation(const int &pnum);
   double random() ;
   
 };

@@ -138,7 +138,7 @@ nnet::~nnet()
 
 }
 
-void nnet::foward_propagation(const int pnum)
+void nnet::foward_propagation(const int &pnum)
 {
   int i,j;
   double sum;
@@ -167,7 +167,7 @@ void nnet::foward_propagation(const int pnum)
 
 }
 
-void nnet::back_propagation(const int pnum)
+void nnet::back_propagation(const int &pnum)
 {
   int i,j;
   double sum;
