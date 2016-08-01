@@ -184,7 +184,7 @@ void nnet::back_propagation(const int &pnum)
   for(i=0;i<hiddennum;i++){
     sum=0;
     for(j=0;j<outputnum;j++){
-      // 前回の重みの変化量[隠れ層->出力層] = η * 出力層での学習信号 * 隠れ層出力 * α * 前回の重みの変化量[隠れ層->出力層]
+      // 前回の重みの変化量[隠れ層->出力層] = η * 出力層での学習信号 * 隠れ層出力 + α * 前回の重みの変化量[隠れ層->出力層]
       W_htoo_prev[j][i]=Eta*dwho[j]*X_h[i]+Alpha*W_htoo_prev[j][i];
       // 重みの変化量[隠れ層ー＞出力層] = 重みの変化量[隠れ層ー＞出力層] + 前回の重みの変化量[隠れ層ー＞出力層]
       W_htoo[j][i]+=W_htoo_prev[j][i];
@@ -206,7 +206,7 @@ void nnet::back_propagation(const int &pnum)
   // 重みの変化量[入力層ー＞隠れ層]を計算
   for(i=0;i<inputnum;i++){
     for(j=0;j<hiddennum;j++){
-      // 前回の重みの変化量[入力層ー＞隠れ層] = η * 隠れ層での学習信号 * 入力層出力 * α * 前回の重みの変化量[入力層ー＞隠れ層]
+      // 前回の重みの変化量[入力層ー＞隠れ層] = η * 隠れ層での学習信号 * 入力層出力 + α * 前回の重みの変化量[入力層ー＞隠れ層]
       W_itoh_prev[j][i]=Eta*dwih[j]*X_i[pnum][i]+Alpha*W_itoh_prev[j][i];
       // 重みの変化量[入力層ー＞隠れ層] = 重みの変化量[入力層ー＞隠れ層] + 前回の重みの変化量[入力層ー＞隠れ層]
       W_itoh[j][i]+=W_itoh_prev[j][i];
